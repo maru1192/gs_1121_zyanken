@@ -117,14 +117,11 @@ body {
 
 .chara-img {
     height: 320px;
-    /* 好きな高さに調整 */
     width: auto;
-    /* 縦に合わせて横幅を自動計算 */
     display: block;
 }
 
 /* ふきだし */
-
 .battle-center {
     position: relative;
     min-height: 220px;
