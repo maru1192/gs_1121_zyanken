@@ -1,0 +1,258 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: #ffffff;
+}
+
+.battle {
+    max-width: 1100px;
+    margin: 60px auto 40px;
+    padding: 0 16px;
+}
+
+/* ===== 上部ステータスバー ===== */
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.status--left {
+    justify-content: flex-start;
+}
+
+.status--right {
+    justify-content: flex-end;
+}
+
+.status-portrait {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.status-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.status-info {
+    margin-left: 16px;
+}
+
+.status-info--right {
+    margin-left: 0;
+    margin-right: 16px;
+    text-align: right;
+}
+
+.status-name {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.status-name--right {
+    text-align: right;
+}
+
+.hp-bar {
+    width: 260px;
+    height: 24px;
+    border: 3px solid #999;
+    border-radius: 4px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.hp-bar-inner {
+    width: 100%;
+    /* JSで%を変える想定 */
+    height: 100%;
+    background: linear-gradient(90deg, #ff4c4c, #ffb347);
+}
+
+.hp-bar-inner--enemy {
+    background: linear-gradient(90deg, #4c7dff, #99b7ff);
+}
+
+.status-vs {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+/* ===== 中央バトルエリア ===== */
+
+.battle-main {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.battle-side {
+    display: flex;
+    justify-content: center;
+}
+
+.chara-img {
+    height: 320px;
+    /* 好きな高さに調整 */
+    width: auto;
+    /* 縦に合わせて横幅を自動計算 */
+    display: block;
+}
+
+/* ふきだし */
+
+.battle-center {
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+}
+
+.speech {
+    background-color: #aaa;
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 10px;
+    position: relative;
+    min-height: 70px;
+}
+
+.speech--enemy {
+    align-self: flex-start;
+}
+
+.speech--player {
+    align-self: flex-end;
+}
+
+.speech--enemy::after,
+.speech--player::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.speech--enemy::after {
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 10px 18px 10px 0;
+    border-color: transparent #aaa transparent transparent;
+}
+
+.speech--player::after {
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #aaa;
+}
+
+/* ===== 下部：技ボタン & 技説明 ===== */
+
+.battle-bottom {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.skills-area {
+    width: 100%;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+}
+
+.skill-btn {
+    width: 100%;
+    padding: 16px 12px;
+    font-size: 18px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    transition: box-shadow 0.15s ease, transform 0.1s ease, background-color 0.15s ease;
+}
+
+.skill-btn:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.skill-btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* 技説明エリア */
+
+.skill-info {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #d60000;
+    line-height: 1.6;
+    min-height: 120px;
+}
+
+/* ざっくりスマホ対応 */
+
+@media (max-width: 768px) {
+    .status-bar {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .battle-main {
+        grid-template-columns: 1fr;
+    }
+
+    .battle-bottom {
+        grid-template-columns: 1fr;
+    }
+
+    .hp-bar {
+        width: 200px;
+    }
+
+    .status-vs {
+        width: 72px;
+        height: 72px;
+        font-size: 22px;
+    }
+}

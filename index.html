@@ -11,13 +11,94 @@
 
 <body>
 
+    <div class="battle">
+
+        <!-- 上：HPゲージ＆VS -->
+        <header class="status-bar">
+
+            <!-- 左：プレイヤー（カツオ） -->
+            <div class="status status--left">
+                <div class="status-portrait">
+                    <img src="img/katsuo_dot.png" alt="ユーザーキャラアイコン">
+                </div>
+
+                <div class="status-info">
+                    <div class="status-name">カツオ</div>
+                    <div class="hp-bar">
+                        <div class="hp-bar-inner" id="player-hp-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-vs">VS</div>
+
+            <!-- 右：敵（花沢さん） -->
+            <div class="status status--right">
+                <div class="status-info status-info--right">
+                    <div class="status-name status-name--right">花沢さん</div>
+                    <div class="hp-bar">
+                        <div class="hp-bar-inner hp-bar-inner--enemy" id="enemy-hp-bar"></div>
+                    </div>
+                </div>
+                <div class="status-portrait">
+                    <img src="img/hanazawa_dot.png" alt="敵キャラアイコン">
+                </div>
+            </div>
+        </header>
+
+        <!-- 中央：キャラ立ち絵＆ふきだし -->
+        <main class="battle-main">
+            <div class="battle-side battle-side--left">
+                <img src="img/katsuo_main.png" alt="カツオ" class="chara-img chara-img--left">
+            </div>
+
+            <div class="battle-center">
+                <!-- プレイヤーのふきだし（上） -->
+                <div class="speech speech--enemy" id="enemy-message">
+                    ここにプレイヤーの台詞が入ります。
+                </div>
+                <!-- 敵のふきだし（下） -->
+                <div class="speech speech--player" id="player-message">
+                    ここに敵の台詞が入ります。
+                </div>
+            </div>
+
+            <div class="battle-side battle-side--right">
+                <img src="img/hanazawa_main.png" alt="花沢さん" class="chara-img chara-img--right">
+            </div>
+        </main>
+
+        <!-- 下：技ボタン + 技説明 -->
+        <section class="battle-bottom">
+            <div class="skills-area">
+                <div class="skills-grid">
+                    <button class="skill-btn" type="button" data-move="nesanZurui">
+                        姉さんずるいよ！ ▶
+                    </button>
+                    <button class="skill-btn" type="button" data-move="tobacchiri">
+                        とんだトバッチリだぜぇ！ ▶
+                    </button>
+                    <button class="skill-btn" type="button" data-move="dash">
+                        全力ダッシュ逃げ ▶
+                    </button>
+                    <button class="skill-btn" type="button" data-move="homerun">
+                        ホームラン！ ▶
+                    </button>
+                </div>
+            </div>
+
+            <aside class="skill-info" id="skill-info">
+                <p>※技名の解説</p>
+            </aside>
+        </section>
+    </div>
 
 
-    <!-- JQueryが先 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- JQueryが先 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <!-- main.jsが後 -->
-    <script src="js/main.js"></script>
+<!-- main.jsが後 -->
+<script src="js/main.js"></script>
 </body>
 
 </html>
