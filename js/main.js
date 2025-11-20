@@ -52,32 +52,35 @@ const moves = {
             name: "グーパンチ",
             power: 18,
             desc: "ストレートパンチ",
-            playerText: "カツオくん、覚悟はいい？",
-            enemyText: "いってぇぇぇ！！"
+            playerText: "いってぇぇぇ！！",
+            enemyText: "磯野くん、覚悟はいい？"
         },
         glare: {
             name: "圧のあるガン見",
             power: 10,
             desc: "無言の圧でメンタルにダメージ。",
-            playerText: "……じーっ。",
-            enemyText: "（目を合わせられねぇ…）"
+            playerText: "（目を合わせられねぇ…）",
+            enemyText: "……じーっ。"
         },
         hug: {
             name: "強引ハグ",
             power: 15,
             desc: "愛情（？）たっぷりのハグで混乱させる。",
-            playerText: "ぎゅーっ！",
-            enemyText: "ちょ、ちょっと！みんな見てるって！"
+            playerText: "ちょ、ちょっと！みんな見てるって！",
+            enemyText: "ぎゅーっ！"
         },
         rage: {
             name: "本気の説教",
             power: 25,
             desc: "10分コースの説教で精神を削る。",
-            playerText: "ちょっとそこに座りなさい。",
-            enemyText: "（逃げられねぇ…）"
+            playerText: "（逃げられねぇ…）",
+            enemyText: "ちょっとそこに座りなさい。"
         }
     }
 };
+
+
+
 
 
 // ====== jQueryで変数要素を取得 ====== //
@@ -95,6 +98,25 @@ $(function () {
 
     // 攻撃ボタン
     const $skillBtns = $(".skill-btn")
+
+
+
+
+    // ====== ボタンにカーソルを合わせた時の設定 ====== //
+
+    $skillBtns.on("mouseover", function () {
+        const moveKey = $(this).data("move");
+        const move =moves.katsuo[moveKey]
+
+        $skillInfo.html(`<p><strong>${move.name}</strong></p>
+                <p>${move.skillText}</p>
+            `);
+    });
+
+
+
+
+
 
 
     // ========== 関数の設定 ========== //
@@ -116,13 +138,6 @@ $(function () {
         $enemyMessage.text(text);
     }
 
-    // 技名の関数設定
-    function updateSkillInfo(move) {
-        $skillInfo.html(`<p><strong>${move.name}</strong></p>
-                <p>${move.skillText}</p>
-            `);
-    }
-
 
     // ====== 技ボタンのクリックイベント作成（自分のターン） ====== //
     $skillBtns.on("click", function () {
@@ -138,11 +153,9 @@ $(function () {
 
         state.isBusy = true;
 
-        //スキル情報の表示（後で関数定義）
-        updateSkillInfo(move);
-
-        //プレイヤーメッセージの表示（後で定義）
+        //メッセージの表示（後で定義）
         setPlayerMessage(move.playerText);
+        setEnemyMessage(move.enemyText);
 
         //ダメージ計算
         const damage = move.power;
@@ -180,8 +193,8 @@ $(function () {
 
         //プレイヤーが倒れた（負けた）かチェック
         if (state.player.hp <= 0) {
-            setEnemyMessage("や、やられた〜…");
-            setPlayerMessage("磯野くんもまだまだね！");
+            setEnemyMessage("磯野くんもまだまだね！");
+            setPlayerMessage("や、やられた〜…");
             return;
         }
         state.isBusy = false;
