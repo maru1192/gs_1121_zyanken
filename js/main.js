@@ -100,13 +100,40 @@ $(function () {
     const $skillBtns = $(".skill-btn")
 
 
+    // ====== タイプライター風表示用の関数 ====== //
+
+    function typeText($el, text, speed = 40, callback) {
+        const prevTimerId = $el.data('typeTimerId');
+        if (prevTimerId) {
+            clearInterval(prevTimerId);
+        }
+
+        $el.text('');
+        var i = 0;
+
+        const timerId = setInterval(function () {
+            $el.text(text.slice(0, i + 1));
+            i++;
+
+            if (i >= text.length) {
+                clearInterval(timerId);
+                $el.removeData('typeTimerId')
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }
+        }, speed);
+
+        $el.data('typeTimerId', timerId);
+    }
+
 
 
     // ====== ボタンにカーソルを合わせた時の設定 ====== //
 
     $skillBtns.on("mouseover", function () {
         const moveKey = $(this).data("move");
-        const move =moves.katsuo[moveKey]
+        const move = moves.katsuo[moveKey]
 
         $skillInfo.html(`<p><strong>${move.name}</strong></p>
                 <p>${move.skillText}</p>
@@ -131,12 +158,14 @@ $(function () {
     }
 
     // 吹き出しメッセージの関数設定
-    function setPlayerMessage(text) {
-        $playerMessage.text(text);
+    function setPlayerMessage(text, callback) {
+        typeText($playerMessage, text, 40, callback);
     }
-    function setEnemyMessage(text) {
-        $enemyMessage.text(text);
+
+    function setEnemyMessage(text, callback) {
+        typeText($enemyMessage, text, 40, callback);
     }
+
 
 
     // ====== 技ボタンのクリックイベント作成（自分のターン） ====== //

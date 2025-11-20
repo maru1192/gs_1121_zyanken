@@ -132,20 +132,27 @@ body {
 }
 
 .speech {
-    background-color: #aaa;
-    color: #fff;
+    background-color: #ffffff;
+    color: #777;
     padding: 16px 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     position: relative;
-    min-height: 70px;
+    min-height: 40px;
+    border: 2px solid #777;
+    display: flex;
+    align-items: center;   /* 縦方向センター */
 }
 
 .speech--enemy {
-    align-self: flex-start;
+    align-self: flex-end;
+    /* ★ 右寄せ */
+    margin-left: 100px;
 }
 
 .speech--player {
-    align-self: flex-end;
+    align-self: flex-start;
+    /* ★ 左寄せ */
+    margin-right: 100px;
 }
 
 .speech--enemy::after,
@@ -157,21 +164,55 @@ body {
     border-style: solid;
 }
 
-.speech--enemy::after {
-    left: -18px;
+.speech--player::before {
+    content: "";
+    position: absolute;
+    left: -22px;
     top: 50%;
     transform: translateY(-50%);
-    border-width: 10px 18px 10px 0;
-    border-color: transparent #aaa transparent transparent;
+    border-style: solid;
+    border-width: 12px 22px 12px 0;
+    border-color: transparent #777 transparent transparent;
+    /* 枠と同じ色 */
 }
 
 .speech--player::after {
-    right: -18px;
+    content: "";
+    position: absolute;
+    left: -18px;
     top: 50%;
     transform: translateY(-50%);
-    border-width: 10px 0 10px 18px;
-    border-color: transparent transparent transparent #aaa;
+    border-style: solid;
+    border-width: 10px 18px 10px 0;
+    border-color: transparent #fff transparent transparent;
+    /* 吹き出し背景色 */
 }
+
+.speech--enemy::before {
+    content: "";
+    position: absolute;
+    right: -22px;
+    /* ← 左じゃなく右 */
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 12px 0 12px 22px;
+    /* ← 右向き→左向きに反転 */
+    border-color: transparent transparent transparent #777;
+}
+
+.speech--enemy::after {
+    content: "";
+    position: absolute;
+    right: -18px;
+    /* ← 少し内側に */
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #fff;
+}
+
 
 /* ===== 下部：技ボタン & 技説明 ===== */
 
