@@ -95,6 +95,8 @@ $(function () {
 
     // コマンド内容の解説
     const $skillInfo = $("#skill-info");
+    const $skillName = $("#skill_name");
+    const $skillDesc = $("#skill_desc");
 
     // 攻撃ボタン
     const $skillBtns = $(".skill-btn")
@@ -130,18 +132,19 @@ $(function () {
 
 
     // ====== ボタンにカーソルを合わせた時の設定 ====== //
+    $skillBtns.hover(
+        function(){
+            const moveKey = $(this).data("move");
+            const move = moves.katsuo[moveKey]
 
-    $skillBtns.on("mouseover", function () {
-        const moveKey = $(this).data("move");
-        const move = moves.katsuo[moveKey]
-
-        $skillInfo.html(`<p><strong>${move.name}</strong></p>
-                <p>${move.skillText}</p>
-            `);
-    });
-
-
-
+            $skillName.html(`${move.name}`);
+            $skillDesc.html(`${move.skillText}`);
+        },
+        function(){
+            $skillName.html(``);
+            $skillDesc.html(``); 
+        }
+    );
 
 
 
