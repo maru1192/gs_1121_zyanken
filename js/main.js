@@ -21,26 +21,26 @@ const moves = {
         nesanZurui: {
             name: "姉さんずるいよ！",
             power: 10,
-            skillText: "姉さんに責任転嫁して相手のメンタルを削る。",
+            skillText: "責任転嫁して相手のメンタルを削る。",
             playerText: "姉さんだけずるいよ！",
             enemyText: "え、なんで私まで巻き込まれてるの！？"
         },
         tobacchiri: {
-            name: "とんだトバッチリだぜぇ！",
+            name: "とんだトバッチリ",
             power: 15,
             skillText: "理不尽アピールで相手をひるませる。",
             playerText: "とんだトバッチリだぜぇ！",
             enemyText: "逆になんで私が攻撃されなきゃいけないの！？"
         },
         dash: {
-            name: "全力ダッシュ逃げ",
+            name: "全力ダッシュ",
             power: 5,
             skillText: "必死で逃げる。",
             playerText: "やばい、逃げろーー！！",
             enemyText: "ちょっと待ちなさいよ磯野くん！"
         },
         homerun: {
-            name: "ホームラン！",
+            name: "フルスイング",
             power: 30,
             skillText: "フルスイングで大ダメージを与える",
             playerText: "ホームラーン！！",
@@ -133,16 +133,16 @@ $(function () {
 
     // ====== ボタンにカーソルを合わせた時の設定 ====== //
     $skillBtns.hover(
-        function(){
+        function () {
             const moveKey = $(this).data("move");
             const move = moves.katsuo[moveKey]
 
             $skillName.html(`${move.name}`);
             $skillDesc.html(`${move.skillText}`);
         },
-        function(){
+        function () {
             $skillName.html(``);
-            $skillDesc.html(``); 
+            $skillDesc.html(``);
         }
     );
 
@@ -162,10 +162,12 @@ $(function () {
 
     // 吹き出しメッセージの関数設定
     function setPlayerMessage(text, callback) {
+        $(".player_fukidasi").fadeIn(200);
         typeText($playerMessage, text, 40, callback);
     }
 
     function setEnemyMessage(text, callback) {
+        $(".enemy_fukidasi").fadeIn(200);
         typeText($enemyMessage, text, 40, callback);
     }
 
@@ -185,24 +187,35 @@ $(function () {
 
         state.isBusy = true;
 
-        //メッセージの表示（後で定義）
-        setPlayerMessage(move.playerText);
-        setEnemyMessage(move.enemyText);
+        // ① まずカツオのメッセージ
+        setPlayerMessage(move.playerText, function () {
 
-        //ダメージ計算
-        const damage = move.power;
-        state.enemy.hp = Math.max(0, state.enemy.hp - damage);
-        updateHpBars();
+            // ② カツオのタイプ終了後、花沢さんのメッセージ
+            setEnemyMessage(move.enemyText, function () {
 
-        //倒したかチェック
-        if (state.enemy.hp <= 0) {
-            setEnemyMessage("ま、まいりました…！");
-            setPlayerMessage("僕の勝ちー！");
-            return;
-        }
+                // ③ ダメージ計算
+                const damage = move.power;
+                state.enemy.hp = Math.max(0, state.enemy.hp - damage);
+                updateHpBars();
 
-        setTimeout(enemyTurn, 800);
+                // ④ 倒したかチェック
+                if (state.enemy.hp <= 0) {
+                    // 勝利演出も順番に
+                    setEnemyMessage("ま、まいりました…！", function () {
+                        setPlayerMessage("僕の勝ちー！", function () {
+                            state.isFinished = true;
+                            state.isBusy = false;
+                        });
+                    });
+                    return; // ここで敵ターンに進まないように止める
+                }
+
+                // ⑤ 生きていれば、少し待ってから敵ターンへ
+                setTimeout(enemyTurn, 800);
+            });
+        });
     }
+
 
     // ====== 敵のターンの設定 ====== //
 
@@ -215,20 +228,26 @@ $(function () {
         console.log("敵のターン：", moveKey, move);
 
         // メッセージの表示
-        setEnemyMessage(move.enemyText);
-        setPlayerMessage(move.playerText);
+        setEnemyMessage(move.enemyText, function () {
+            setPlayerMessage(move.playerText, function () {
 
-        //ダメージ計算
-        const damage = move.power;
-        state.player.hp = Math.max(0, state.player.hp - damage);
-        updateHpBars();
+                //ダメージ計算
+                const damage = move.power;
+                state.player.hp = Math.max(0, state.player.hp - damage);
+                updateHpBars();
 
-        //プレイヤーが倒れた（負けた）かチェック
-        if (state.player.hp <= 0) {
-            setEnemyMessage("磯野くんもまだまだね！");
-            setPlayerMessage("や、やられた〜…");
-            return;
-        }
-        state.isBusy = false;
+                //プレイヤーが倒れた（負けた）かチェック
+                if (state.player.hp <= 0) {
+                    setEnemyMessage("磯野くんもまだまだね！", function () {
+                        setPlayerMessage("や、やられた〜…", function () {
+                            state.isBusy = false;
+                            state.isFinished = true;
+                        });
+                    });
+                    return;
+                }
+                state.isBusy = false;
+            });
+        });
     }
 });
